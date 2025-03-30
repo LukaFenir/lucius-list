@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.lukafenir.luciuslist.ui.theme.LuciuslistTheme
+import com.lukafenir.luciuslist.ui.theme.ShoppingListTheme
 
 @Composable
 fun ShoppingListScreen(
@@ -24,7 +24,7 @@ fun ShoppingListScreen(
 @Preview(showBackground = true)
 @Composable
 fun ShoppingListScreenPreview() {
-    LuciuslistTheme {
+    ShoppingListTheme {
         ShoppingListScreen()
     }
 }
