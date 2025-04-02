@@ -28,6 +28,7 @@ fun ShoppingListRow(item: ShoppingItem) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp)
+            .testTag("shopping_list_row_${item.id}")
     ) {
         Row(
             modifier = Modifier
