@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "luciuslist"
+rootProject.name = "lucius-list"
 include(":app")
  
