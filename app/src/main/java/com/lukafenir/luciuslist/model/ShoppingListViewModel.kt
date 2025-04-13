@@ -18,4 +18,8 @@ class ShoppingListViewModel : ViewModel() {
             )
         )
     }
+
+    fun deleteItem(name: String){
+
+    }
 }
