@@ -39,4 +39,34 @@ class ShoppingListViewModelTest {
         assertThat(viewModel.items[1]).isEqualTo(ShoppingItem(1, "Banana", 1, "", false))
         assertThat(viewModel.items[0]).isEqualTo(ShoppingItem(1, "Whole Wheat", 1, "", false))
     }
+
+    @Test
+    fun `deleteItem on a list with one item, deletes the item, leaving an empty list`(){
+        //given
+        var viewModel = ShoppingListViewModel()
+        viewModel.addItem("Cake")
+
+        //when
+        viewModel.deleteItem("Cake")
+
+        //then
+        assertThat(viewModel.items).hasSize(0)
+    }
+
+    @Test
+    fun `deleteItem on a list deletes the item`(){
+        //given
+        var viewModel = ShoppingListViewModel()
+        viewModel.addItem("Cake")
+        viewModel.addItem("Dog Food")
+        viewModel.addItem("Batteries")
+
+        //when
+        viewModel.deleteItem("Cake")
+
+        //then
+        assertThat(viewModel.items).hasSize(2)
+        assertThat(viewModel.items[0]).isEqualTo(ShoppingItem(2, "Dog Food", 1, "", false))
+        assertThat(viewModel.items[1]).isEqualTo(ShoppingItem(3, "Batteries", 1, "", false))
+    }
 }

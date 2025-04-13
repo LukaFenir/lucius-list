@@ -3,8 +3,10 @@ package com.lukafenir.luciuslist.ui
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotDisplayed
+import androidx.compose.ui.test.hasAnySibling
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasSetTextAction
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.isNotDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
@@ -161,5 +163,53 @@ class ShoppingListScreenTest {
 
         //then
         composeTestRule.onAllNodesWithTagPattern("shopping_list_row_.*").assertCountEquals(3)
+    }
+
+    @Test
+    fun anItemDeletedFromTheList_isNotDisplayedInTheListScreen() {
+        //given
+        var viewModel = ShoppingListViewModel();
+        viewModel.addItem("Banana")
+        viewModel.addItem("Wholewheat Flour")
+        viewModel.addItem("Bleach")
+
+        composeTestRule.setContent {
+            ShoppingListTheme {
+                ShoppingListScreen(viewModel)
+            }
+        }
+        composeTestRule.onNodeWithText("Banana").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Wholewheat Flour").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Bleach").assertIsDisplayed()
+
+        //when
+        composeTestRule.onNode(hasContentDescription("Delete Item") and hasAnySibling(hasText("Wholewheat Flour"))).performClick()
+
+        //then
+        composeTestRule.onNodeWithText("Banana").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Wholewheat Flour").assertIsNotDisplayed()
+        composeTestRule.onNodeWithText("Bleach").assertIsDisplayed()
+    }
+
+    @Test
+    fun whenTheLastItemIsDeletedFromTheList_theListIsEmptyMessageIsDisplayed() {
+        //given
+        var viewModel = ShoppingListViewModel();
+        viewModel.addItem("Cranberries")
+
+        composeTestRule.setContent {
+            ShoppingListTheme {
+                ShoppingListScreen(viewModel)
+            }
+        }
+        composeTestRule.onNodeWithText("Cranberries").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Your shopping list is empty. Tap + to add items.").assertIsNotDisplayed()
+
+        //when
+        composeTestRule.onNode(hasContentDescription("Delete Item") and hasAnySibling(hasText("Cranberries"))).performClick()
+
+        //then
+        composeTestRule.onNodeWithText("Cranberries").assertIsNotDisplayed()
+        composeTestRule.onNodeWithText("Your shopping list is empty. Tap + to add items.").assertIsDisplayed()
     }
 }
