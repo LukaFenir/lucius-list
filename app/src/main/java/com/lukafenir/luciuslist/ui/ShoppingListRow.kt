@@ -1,5 +1,6 @@
 package com.lukafenir.luciuslist.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,7 +24,10 @@ import com.lukafenir.luciuslist.model.ShoppingItem
 import com.lukafenir.luciuslist.ui.theme.ShoppingListTheme
 
 @Composable
-fun ShoppingListRow(item: ShoppingItem) {
+fun ShoppingListRow(
+    item: ShoppingItem,
+    onDelete: (ShoppingItem) -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -95,7 +99,7 @@ fun ShoppingListRow(item: ShoppingItem) {
                 }
 
                 IconButton(onClick = {
-//                    onDelete
+                    onDelete(item)
                 }) {
                     Icon(
                         imageVector = Icons.Default.Delete,
@@ -111,6 +115,9 @@ fun ShoppingListRow(item: ShoppingItem) {
 @Composable
 fun ShoppingListRowPreview(){
     ShoppingListTheme {
-        ShoppingListRow(ShoppingItem(1, "Cheese"))
+        ShoppingListRow(
+            ShoppingItem(1, "Cheese"),
+            onDelete = { Log.d("ShoppingListRow", "Pressed delete button") } // Can't delete itself, only a preview
+        )
     }
 }

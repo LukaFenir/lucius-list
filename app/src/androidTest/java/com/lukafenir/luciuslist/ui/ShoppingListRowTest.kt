@@ -23,7 +23,10 @@ class ShoppingListRowTest {
     fun aShoppingItem_isDisplayedInTheShoppingListRow(){
         composeTestRule.setContent {
             ShoppingListTheme {
-                ShoppingListRow(ShoppingItem(1, "Eggs", 6))
+                ShoppingListRow(
+                    ShoppingItem(1, "Eggs", 6),
+                    onDelete = {}
+                )
             }
         }
 
