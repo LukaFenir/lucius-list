@@ -31,13 +31,13 @@ fun ShoppingListRow(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp)
+            .padding(horizontal = 2.dp, vertical = 2.dp)
             .testTag("shopping_list_row_${item.id}")
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(2.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = {

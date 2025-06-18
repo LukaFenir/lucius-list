@@ -82,7 +82,6 @@ fun ShoppingListAddButton(
                     label = { Text("Enter text") },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
                         .focusRequester(focusRequester),
                     keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                     keyboardActions = KeyboardActions(
