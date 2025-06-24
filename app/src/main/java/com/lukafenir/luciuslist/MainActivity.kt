@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import com.lukafenir.luciuslist.model.DefaultShoppingListRepository
 import com.lukafenir.luciuslist.ui.ShoppingListScreen
 import com.lukafenir.luciuslist.model.ShoppingListViewModel
 import com.lukafenir.luciuslist.ui.theme.ShoppingListTheme
@@ -25,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.systemBars),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ShoppingListScreen(ShoppingListViewModel())
+                    ShoppingListScreen(ShoppingListViewModel(DefaultShoppingListRepository(LocalContext.current)))
                 }
             }
         }

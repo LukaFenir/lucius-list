@@ -15,8 +15,10 @@ import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performImeAction
 import androidx.compose.ui.test.performTextInput
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.lukafenir.luciuslist.model.ShoppingItem
 import com.lukafenir.luciuslist.model.ShoppingListViewModel
 import com.lukafenir.luciuslist.onAllNodesWithTagPattern
+import com.lukafenir.luciuslist.model.FakeShoppingListRepository
 import com.lukafenir.luciuslist.ui.theme.ShoppingListTheme
 import org.junit.Rule
 import org.junit.Test
@@ -31,7 +33,7 @@ class ShoppingListScreenTest {
     @Test
     fun emptyShoppingList_displaysEmptyStateMessage() {
         //given
-        var viewModel = ShoppingListViewModel()
+        var viewModel = ShoppingListViewModel(FakeShoppingListRepository())
 
         //when
         composeTestRule.setContent {
@@ -47,10 +49,11 @@ class ShoppingListScreenTest {
     @Test
     fun populatedShoppingList_isDisplayedInTheListScreen() {
         //given
-        var viewModel = ShoppingListViewModel();
-        viewModel.addItem("Banana")
-        viewModel.addItem("Wholewheat Flour")
-        viewModel.addItem("Bleach")
+        val testItems = listOf(
+            ShoppingItem(1, "Banana", 1),
+            ShoppingItem(2, "Wholewheat Flour", 1),
+            ShoppingItem(3, "Bleach", 1))
+        val viewModel = ShoppingListViewModel(FakeShoppingListRepository(testItems));
 
         //when
         composeTestRule.setContent {
@@ -69,7 +72,7 @@ class ShoppingListScreenTest {
     @Test
     fun addingAnItemToAnEmptyList_displaysTheNewItemOnTheListScreen() {
         //given
-        val viewModel = ShoppingListViewModel();
+        val viewModel = ShoppingListViewModel(FakeShoppingListRepository());
 
         composeTestRule.setContent {
             ShoppingListTheme {
@@ -93,7 +96,7 @@ class ShoppingListScreenTest {
     @Test
     fun addingBlankItemToAnEmptyList_displaysEmptyListMessage() {
         //given
-        val viewModel = ShoppingListViewModel();
+        val viewModel = ShoppingListViewModel(FakeShoppingListRepository());
 
         composeTestRule.setContent {
             ShoppingListTheme {
@@ -117,10 +120,11 @@ class ShoppingListScreenTest {
     @Test
     fun addingAnItemToAnAlreadyPopulatedList_displaysTheNewItemAfterTheOlderItems() {
         //given
-        val viewModel = ShoppingListViewModel();
-        viewModel.addItem("Banana")
-        viewModel.addItem("Wholewheat Flour")
-        viewModel.addItem("Bleach")
+        val testItems = listOf(
+            ShoppingItem(1, "Banana", 1),
+            ShoppingItem(2, "Wholewheat Flour", 1),
+            ShoppingItem(3, "Bleach", 1))
+        val viewModel = ShoppingListViewModel(FakeShoppingListRepository(testItems));
 
         composeTestRule.setContent {
             ShoppingListTheme {
@@ -145,10 +149,11 @@ class ShoppingListScreenTest {
     @Test
     fun addingBlankItemToAnAlreadyPopulatedList_displaysEmptyListMessage() {
         //given
-        val viewModel = ShoppingListViewModel();
-        viewModel.addItem("Banana")
-        viewModel.addItem("Wholewheat Flour")
-        viewModel.addItem("Bleach")
+        val testItems = listOf(
+            ShoppingItem(1, "Banana", 1),
+            ShoppingItem(2, "Wholewheat Flour", 1),
+            ShoppingItem(3, "Bleach", 1))
+        val viewModel = ShoppingListViewModel(FakeShoppingListRepository(testItems));
 
         composeTestRule.setContent {
             ShoppingListTheme {
@@ -168,10 +173,11 @@ class ShoppingListScreenTest {
     @Test
     fun anItemDeletedFromTheList_isNotDisplayedInTheListScreen() {
         //given
-        var viewModel = ShoppingListViewModel();
-        viewModel.addItem("Banana")
-        viewModel.addItem("Wholewheat Flour")
-        viewModel.addItem("Bleach")
+        val testItems = listOf(
+            ShoppingItem(1, "Banana", 1),
+            ShoppingItem(2, "Wholewheat Flour", 1),
+            ShoppingItem(3, "Bleach", 1))
+        val viewModel = ShoppingListViewModel(FakeShoppingListRepository(testItems));
 
         composeTestRule.setContent {
             ShoppingListTheme {
@@ -194,8 +200,9 @@ class ShoppingListScreenTest {
     @Test
     fun whenTheLastItemIsDeletedFromTheList_theListIsEmptyMessageIsDisplayed() {
         //given
-        var viewModel = ShoppingListViewModel();
-        viewModel.addItem("Cranberries")
+        val testItems = listOf(
+            ShoppingItem(1, "Cranberries", 1))
+        val viewModel = ShoppingListViewModel(FakeShoppingListRepository(testItems));
 
         composeTestRule.setContent {
             ShoppingListTheme {

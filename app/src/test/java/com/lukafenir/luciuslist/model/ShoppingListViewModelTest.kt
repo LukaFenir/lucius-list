@@ -1,19 +1,71 @@
 package com.lukafenir.luciuslist.model
 
+import com.lukafenir.luciuslist.io.NoOpLogger
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.impl.annotations.MockK
+import io.mockk.verify
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class ShoppingListViewModelTest {
 
-    @Test
-    fun `View Model initial state is empty`(){
-        assertThat(ShoppingListViewModel().items).isEmpty()
+    @MockK
+    private lateinit var mockRepository: ShoppingListRepository
+
+    @Before
+    fun setUp() {
+        MockKAnnotations.init(this)
+        every { mockRepository.loadItems() } returns emptyList()
+        Dispatchers.setMain(UnconfinedTestDispatcher())
+    }
+
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
     }
 
     @Test
-    fun `addItem adds an item to the empty view model`(){
+    fun `View Model initial state is empty`(){
         //given
-        var viewModel = ShoppingListViewModel()
+        every { mockRepository.loadItems() } returns emptyList()
+
+        //when
+        val viewModel = ShoppingListViewModel(mockRepository, NoOpLogger())
+
+        //then
+        assertThat(viewModel.items).isEmpty()
+        verify { mockRepository.loadItems() }
+    }
+
+    @Test
+    fun `If repository contains items, View Model initialising with items`(){
+        val itemsList = listOf(
+            ShoppingItem(1, "An Egg", 1),
+            ShoppingItem(2, "Bananas", 3),
+            ShoppingItem(3, "Cakery", 1)
+        )
+        every { mockRepository.loadItems() } returns itemsList
+
+        //when
+        val viewModel = ShoppingListViewModel(mockRepository, NoOpLogger())
+
+        assertThat(viewModel.items).hasSize(3)
+        verify { mockRepository.loadItems() }
+    }
+
+    @Test
+    fun `addItem adds an item to the empty view model`() {
+        //given
+        val viewModel = ShoppingListViewModel(mockRepository, NoOpLogger())
 
         //when
         viewModel.addItem("Cheese")
@@ -26,7 +78,7 @@ class ShoppingListViewModelTest {
     @Test
     fun `addItem multiple times adds multiple items to the view model`(){
         //given
-        var viewModel = ShoppingListViewModel()
+        val viewModel = ShoppingListViewModel(mockRepository, NoOpLogger())
 
         //when
         viewModel.addItem("Cheese")
@@ -43,7 +95,7 @@ class ShoppingListViewModelTest {
     @Test
     fun `deleteItem on a list with one item, deletes the item, leaving an empty list`(){
         //given
-        var viewModel = ShoppingListViewModel()
+        val viewModel = ShoppingListViewModel(mockRepository, NoOpLogger())
         viewModel.addItem("Cake")
         assertThat(viewModel.items).hasSize(1)
         var itemToDelete: ShoppingItem = viewModel.items[0]
@@ -58,7 +110,7 @@ class ShoppingListViewModelTest {
     @Test
     fun `deleteItem on a list deletes the item`(){
         //given
-        var viewModel = ShoppingListViewModel()
+        val viewModel = ShoppingListViewModel(mockRepository, NoOpLogger())
         viewModel.addItem("Cake")
         viewModel.addItem("Dog Food")
         viewModel.addItem("Batteries")

@@ -9,11 +9,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.lukafenir.luciuslist.model.FakeShoppingListRepository
 import com.lukafenir.luciuslist.model.ShoppingItem
 import com.lukafenir.luciuslist.model.ShoppingListViewModel
 import com.lukafenir.luciuslist.ui.theme.ShoppingListTheme
@@ -65,25 +65,19 @@ fun ShoppingListScreen(
 @Preview(showBackground = true)
 @Composable
 fun ShoppingListScreenPreview() {
-    var viewModel = remember {
-        ShoppingListViewModel().apply {
-            addItem("Cheese")
-            addItem("Wholewheat Pasta")
-            addItem("Bleach")
-        }
-    }
+    val testItems = listOf(
+        ShoppingItem(1, "Cheese", 1),
+        ShoppingItem(2, "Wholewheat Flour", 1),
+        ShoppingItem(3, "Bleach", 1))
     ShoppingListTheme {
-        ShoppingListScreen(viewModel)
+        ShoppingListScreen(ShoppingListViewModel(FakeShoppingListRepository(testItems)))
     }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun ShoppingListScreenEmptyPreview() {
-    var viewModel = remember {
-        ShoppingListViewModel()
-    }
     ShoppingListTheme {
-        ShoppingListScreen(viewModel)
+        ShoppingListScreen(ShoppingListViewModel(FakeShoppingListRepository()))
     }
 }
