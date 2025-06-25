@@ -1,6 +1,7 @@
 package com.lukafenir.luciuslist.model
 
 import com.lukafenir.luciuslist.io.NoOpLogger
+import com.lukafenir.luciuslist.persistence.ShoppingListRepository
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

@@ -1,4 +1,6 @@
-package com.lukafenir.luciuslist.model
+package com.lukafenir.luciuslist.persistence
+
+import com.lukafenir.luciuslist.model.ShoppingItem
 
 //For previews and tests only
 class FakeShoppingListRepository(

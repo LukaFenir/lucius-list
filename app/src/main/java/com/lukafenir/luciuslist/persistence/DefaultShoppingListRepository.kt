@@ -1,4 +1,4 @@
-package com.lukafenir.luciuslist.model
+package com.lukafenir.luciuslist.persistence
 
 import android.content.Context
 import com.google.gson.Gson
@@ -6,6 +6,8 @@ import com.lukafenir.luciuslist.io.AndroidLogger
 import com.lukafenir.luciuslist.io.DefaultFileOperations
 import com.lukafenir.luciuslist.io.FileOperations
 import com.lukafenir.luciuslist.io.Logger
+import com.lukafenir.luciuslist.model.ShoppingItem
+import com.lukafenir.luciuslist.model.ShoppingItemListType
 import java.io.File
 
 class DefaultShoppingListRepository(

@@ -2,6 +2,7 @@ package com.lukafenir.luciuslist.model
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.lukafenir.luciuslist.persistence.ShoppingListRepository
 
 class ShoppingListViewModelFactory(
     private val repository: ShoppingListRepository

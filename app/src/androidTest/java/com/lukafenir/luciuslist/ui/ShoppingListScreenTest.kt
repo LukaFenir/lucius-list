@@ -18,7 +18,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.lukafenir.luciuslist.model.ShoppingItem
 import com.lukafenir.luciuslist.model.ShoppingListViewModel
 import com.lukafenir.luciuslist.onAllNodesWithTagPattern
-import com.lukafenir.luciuslist.model.FakeShoppingListRepository
+import com.lukafenir.luciuslist.persistence.FakeShoppingListRepository
 import com.lukafenir.luciuslist.ui.theme.ShoppingListTheme
 import org.junit.Rule
 import org.junit.Test

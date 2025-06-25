@@ -1,9 +1,10 @@
-package com.lukafenir.luciuslist.model
+package com.lukafenir.luciuslist.persistence
 
 import android.content.Context
 import com.google.gson.Gson
 import com.lukafenir.luciuslist.io.FileOperations
 import com.lukafenir.luciuslist.io.NoOpLogger
+import com.lukafenir.luciuslist.model.ShoppingItem
 import io.mockk.MockKAnnotations
 import io.mockk.confirmVerified
 import io.mockk.every

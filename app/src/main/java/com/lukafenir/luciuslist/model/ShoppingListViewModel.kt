@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lukafenir.luciuslist.io.AndroidLogger
 import com.lukafenir.luciuslist.io.Logger
+import com.lukafenir.luciuslist.persistence.ShoppingListRepository
 import kotlinx.coroutines.launch
 
 class ShoppingListViewModel(
