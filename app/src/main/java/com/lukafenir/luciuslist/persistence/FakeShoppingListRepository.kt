@@ -17,7 +17,7 @@ class FakeShoppingListRepository(
         this.items.addAll(items)
     }
 
-    override fun loadItems(): List<ShoppingItem> {
+    override suspend fun loadItems(): List<ShoppingItem> {
         return items.toList()
     }
 }

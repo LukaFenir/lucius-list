@@ -4,5 +4,5 @@ import com.lukafenir.luciuslist.model.ShoppingItem
 
 interface ShoppingListRepository {
     fun saveItems(items: List<ShoppingItem>)
-    fun loadItems(): List<ShoppingItem>
+    suspend fun loadItems(): List<ShoppingItem>
 }

@@ -28,7 +28,7 @@ class DefaultShoppingListRepository(
         }
     }
 
-    override fun loadItems(): List<ShoppingItem> {
+    override suspend fun loadItems(): List<ShoppingItem> {
         return try {
             if(!fileOperations.fileExists(File(context.filesDir, fileName))){
                 logger.d(LOGGER_NAME, "No save file found")

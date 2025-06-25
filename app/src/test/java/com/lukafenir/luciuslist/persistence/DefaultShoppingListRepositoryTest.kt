@@ -13,6 +13,7 @@ import io.mockk.just
 import io.mockk.runs
 import io.mockk.slot
 import io.mockk.verify
+import kotlinx.coroutines.test.runTest
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatNoException
 import org.junit.Before
@@ -92,7 +93,7 @@ class DefaultShoppingListRepositoryTest {
     }
 
     @Test
-    fun `when a file does not exist, loadItems does not read file and return an empty list`(){
+    fun `when a file does not exist, loadItems does not read file and return an empty list`() = runTest {
         //given
         every { mockFileOperations.fileExists(any()) } returns false
 
@@ -106,7 +107,7 @@ class DefaultShoppingListRepositoryTest {
     }
 
     @Test
-    fun `when a file with an empty array exists, loadItems returns an empty list`(){
+    fun `when a file with an empty array exists, loadItems returns an empty list`() = runTest {
         //given
         every { mockFileOperations.fileExists(any()) } returns true
         every { mockFileOperations.readFromFile(any()) } returns "[]"
@@ -121,7 +122,7 @@ class DefaultShoppingListRepositoryTest {
     }
 
     @Test
-    fun `when a file with data exists, loadItems returns a list of shopping items`(){
+    fun `when a file with data exists, loadItems returns a list of shopping items`() = runTest {
         //given
         val fileContents = """[ {
   "id" : 1,
@@ -155,7 +156,7 @@ class DefaultShoppingListRepositoryTest {
     }
 
     @Test
-    fun `loadItems does not throw an exception when read file fails`(){
+    fun `loadItems does not throw an exception when read file fails`() = runTest {
         //given
         every { mockFileOperations.fileExists(any()) } returns true
         every { mockFileOperations.writeToFile(any(), any()) } throws IOException("Write failure")

@@ -3,10 +3,10 @@ package com.lukafenir.luciuslist.model
 import com.lukafenir.luciuslist.io.NoOpLogger
 import com.lukafenir.luciuslist.persistence.ShoppingListRepository
 import io.mockk.MockKAnnotations
-import io.mockk.every
+import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
-import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
+import io.mockk.coVerify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -25,26 +25,27 @@ class ShoppingListViewModelTest {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        every { mockRepository.loadItems() } returns emptyList()
+        coEvery { mockRepository.loadItems() } returns emptyList()
         Dispatchers.setMain(UnconfinedTestDispatcher())
     }
 
     @After
     fun tearDown() {
         Dispatchers.resetMain()
+        coEvery { mockRepository.loadItems() } returns emptyList()
     }
 
     @Test
     fun `View Model initial state is empty`(){
         //given
-        every { mockRepository.loadItems() } returns emptyList()
+        coEvery { mockRepository.loadItems() } returns emptyList()
 
         //when
         val viewModel = ShoppingListViewModel(mockRepository, NoOpLogger())
 
         //then
         assertThat(viewModel.items).isEmpty()
-        verify { mockRepository.loadItems() }
+        coVerify { mockRepository.loadItems() }
     }
 
     @Test
@@ -54,13 +55,13 @@ class ShoppingListViewModelTest {
             ShoppingItem(2, "Bananas", 3),
             ShoppingItem(3, "Cakery", 1)
         )
-        every { mockRepository.loadItems() } returns itemsList
+        coEvery { mockRepository.loadItems() } returns itemsList
 
         //when
         val viewModel = ShoppingListViewModel(mockRepository, NoOpLogger())
 
         assertThat(viewModel.items).hasSize(3)
-        verify { mockRepository.loadItems() }
+        coVerify { mockRepository.loadItems() }
     }
 
     @Test
