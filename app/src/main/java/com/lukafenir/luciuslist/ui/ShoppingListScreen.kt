@@ -30,7 +30,7 @@ fun ShoppingListScreen(
             .fillMaxSize(),
         contentPadding = PaddingValues(16.dp)
     ) {
-        if(shoppingListViewModel.items.isEmpty()) {
+        if(shoppingListViewModel.items.isEmpty() && !shoppingListViewModel.isLoading.value) {
             item {
                 ShoppingListAddButton(
                     onSubmit = addItemFunction

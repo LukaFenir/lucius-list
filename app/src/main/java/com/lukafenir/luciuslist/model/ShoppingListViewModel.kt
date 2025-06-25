@@ -18,7 +18,7 @@ class ShoppingListViewModel(
     private val _items = mutableStateListOf<ShoppingItem>()
     val items: List<ShoppingItem> = _items
 
-    private val _isLoading = mutableStateOf(false)
+    private val _isLoading = mutableStateOf(true)
     val isLoading: State<Boolean> = _isLoading
 
     init {

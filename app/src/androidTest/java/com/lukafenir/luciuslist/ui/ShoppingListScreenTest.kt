@@ -19,7 +19,9 @@ import com.lukafenir.luciuslist.model.ShoppingItem
 import com.lukafenir.luciuslist.model.ShoppingListViewModel
 import com.lukafenir.luciuslist.onAllNodesWithTagPattern
 import com.lukafenir.luciuslist.persistence.FakeShoppingListRepository
+import com.lukafenir.luciuslist.persistence.ShoppingListRepository
 import com.lukafenir.luciuslist.ui.theme.ShoppingListTheme
+import kotlinx.coroutines.delay
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -44,6 +46,33 @@ class ShoppingListScreenTest {
 
         //then
         composeTestRule.onNodeWithText("Your shopping list is empty. Tap + to add items.").assertIsDisplayed()
+    }
+
+    @Test
+    fun emptyStateMessage_notDisplayedWhileLoading() {
+        // Given
+        val slowRepository = FakeSlowShoppingListRepository()
+        val viewModel = ShoppingListViewModel(slowRepository)
+
+        // When
+        composeTestRule.setContent {
+            ShoppingListTheme {
+                ShoppingListScreen(viewModel)
+            }
+        }
+
+        // Then - empty message should not be displayed while loading
+        composeTestRule.onNodeWithText("Your shopping list is empty. Tap + to add items.")
+            .assertDoesNotExist()
+
+        // Wait for loading to complete
+        composeTestRule.waitUntil(timeoutMillis = 3000) {
+            !viewModel.isLoading.value
+        }
+
+        // Then - empty message should appear after loading completes
+        composeTestRule.onNodeWithText("Your shopping list is empty. Tap + to add items.")
+            .assertIsDisplayed()
     }
 
     @Test
@@ -218,5 +247,20 @@ class ShoppingListScreenTest {
         //then
         composeTestRule.onNodeWithText("Cranberries").assertIsNotDisplayed()
         composeTestRule.onNodeWithText("Your shopping list is empty. Tap + to add items.").assertIsDisplayed()
+    }
+
+    class FakeSlowShoppingListRepository : ShoppingListRepository {
+        private var items = mutableListOf<ShoppingItem>()
+
+        override fun saveItems(items: List<ShoppingItem>) {
+            this.items.clear()
+            this.items.addAll(items)
+        }
+
+        override suspend fun loadItems(): List<ShoppingItem> {
+            // Simulate network delay
+            delay(1000)
+            return items.toList()
+        }
     }
 }
